@@ -1,0 +1,58 @@
+<form class="form-horizontal" name="signin">
+    <!-- Email -->
+    <div class="form-group">
+        <label for="email" class="col-sm-offset-2 col-sm-3 control-label">Email</label>
+        <div class="col-sm-3">
+            <input type="email"
+                   name="email"
+                   id="email"
+                   placeholder="Email"
+                   ng-model="user.email"
+                   class="form-control"
+                   value=""
+                   required>
+            <p></p>
+            <div class="ng-messages" ng-if='signin.email.$dirty' ng-messages="signin.email.$error" role="alert">
+                <div ng-messages-include="ng-messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+        <label for="password" class="col-sm-offset-2 col-sm-3 control-label">Password</label>
+        <div class="col-sm-3">
+            <input type="password"
+                   name="password"
+                   id="password"
+                   placeholder="Password"
+                   ng-model="user.password"
+                   class="form-control"
+                   value=""
+                   required>
+            <p></p>
+            <div class="ng-messages" ng-if='signin.password.$dirty' ng-messages="signin.password.$error" role="alert">
+                <div ng-messages-include="ng-messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remember Me -->
+    <div class="form-group">
+        <div class="col-sm-offset-5 col-sm-3">
+            <div class="checkbox">
+                <label for="remember">
+                    <input type="checkbox" name="remember" id="remember" ng-model="user.remember"> Remember Me
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="form-group">
+        <div class="col-sm-offset-5 col-sm-3">
+            <button type="submit" class="btn btn-default" ng-click="signIn()">Signin</button>
+            Or <a href="#signup">Signup</a> for an account.
+        </div>
+    </div>
+</form>

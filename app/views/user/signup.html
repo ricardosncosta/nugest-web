@@ -1,0 +1,132 @@
+<form class="form-horizontal" name="signup">
+    <!-- First and Last name -->
+    <div class="form-group">
+        <label for="email" class="col-sm-offset-2 col-sm-3 control-label">First name</label>
+        <div class="col-sm-3">
+            <input type="text"
+				   class="form-control"
+				   name="first_name"
+		    	   id="first_name"
+    			   placeholder="First name"
+				   value=""
+				   ng-model="user.first_name"
+				   required>
+
+				   <p></p>
+
+				   <div class="ng-messages" ng-if='signup.first_name.$dirty' ng-messages="signup.first_name.$error" role="alert">
+					   <div ng-messages-include="ng-messages"></div>
+				   </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="last_name" class="col-sm-offset-2 col-sm-3 control-label">Last name</label>
+        <div class="col-sm-3">
+            <input type="text"
+				   class="form-control"
+				   name="last_name"
+				   id="last_name"
+				   placeholder="Last name"
+				   value=""
+				   ng-model="user.last_name"
+				   required>
+
+				   <p></p>
+
+				   <div class="ng-messages" ng-if='signup.last_name.$dirty' ng-messages="signup.last_name.$error" role="alert">
+					   <div ng-messages-include="ng-messages"></div>
+				   </div>
+        </div>
+    </div>
+
+    <!-- Username -->
+    <div class="form-group">
+        <label for="username" class="col-sm-offset-2 col-sm-3 control-label">Username</label>
+        <div class="col-sm-3">
+            <input type="text"
+				   class="form-control"
+				   name="username"
+				   id="username"
+				   placeholder="Username"
+				   value=""
+				   ng-model="user.username"
+				   required>
+
+				   <p></p>
+
+				   <div class="ng-messages" ng-if='signup.username.$dirty' ng-messages="signup.username.$error" role="alert">
+					   <div ng-messages-include="ng-messages"></div>
+				   </div>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label for="email" class="col-sm-offset-2 col-sm-3 control-label">Email</label>
+        <div class="col-sm-3">
+            <input type="email"
+				   class="form-control"
+				   name="email"
+				   id="email"
+				   placeholder="Email"
+				   value=""
+				   ng-model="user.email"
+				   required>
+
+				   <p></p>
+
+				   <div class="ng-messages" ng-if='signup.email.$dirty' ng-messages="signup.email.$error" role="alert">
+					   <div ng-messages-include="ng-messages"></div>
+				   </div>
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+        <label for="password" class="col-sm-offset-2 col-sm-3 control-label">Password</label>
+        <div class="col-sm-3">
+            <input type="password"
+				   class="form-control"
+				   name="password"
+				   id="password"
+				   placeholder="Password"
+				   ng-model="user.password"
+				   minlength="6"
+				   equals="{{user.password_confirmation}}"
+				   required>
+
+				   <p></p>
+
+				   <div class="ng-messages" ng-if='signup.password.$dirty' ng-messages="signup.password.$error" role="alert">
+					   <div ng-messages-include="ng-messages"></div>
+				   </div>
+        </div>
+    </div>
+
+    <!-- Password confirmation -->
+    <div class="form-group">
+        <label for="password_confirmation" class="col-sm-offset-2 col-sm-3 control-label">Password confirmation</label>
+        <div class="col-sm-3">
+            <input type="password"
+				   class="form-control"
+				   name="password_confirmation"
+				   id="password_confirmation"
+				   ng-model="user.password_confirmation"
+				   placeholder="Password confirmation"
+				   minlength="6"
+				   equals="{{user.password}}"
+				   required>
+				   <p></p>
+				   <div class="ng-messages" ng-if='signup.password_confirmation.$dirty' ng-messages="signup.password_confirmation.$error" role="alert">
+					   <div ng-messages-include="ng-messages"></div>
+				   </div>
+        </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="form-group">
+        <div class="col-sm-offset-5 col-sm-3">
+            <button type="submit" class="btn btn-default" ng-click="signUp()" ng-disabled="signup.$invalid">Signup</button>
+        </div>
+    </div>
+</form>
