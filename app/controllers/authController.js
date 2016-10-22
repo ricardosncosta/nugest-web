@@ -24,11 +24,8 @@ authControllers.controller('AuthCtrl', [
                     $location.path("/");
                 }
             }, function(response) {
-                var data = response.data;
-                if (data.error !== undefined && Array.isArray(data.error)) {
-                    for (var msg in data.error) {
-                        Flash.add('danger', data.error[msg]);
-                    }
+                if (response.data.error !== undefined) {
+                    Flash.add('danger', response.data.error);
                 }
             });
         };

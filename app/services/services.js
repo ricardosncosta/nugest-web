@@ -13,9 +13,9 @@ services.factory('User', ['$resource',
 ]);
 
 // Auth manager
-services.factory('AuthManager', ['$rootScope', '$http', 'User', '$window', '$cookies', '$location', '$httpParamSerializerJQLike',
-    function($rootScope, $http, User, $window, $cookies, $location, $httpParamSerializerJQLike) {
-        var dataFactory = {}, timeOut;
+services.factory('AuthManager', ['$rootScope', '$window', '$http', 'Flash', 'User', '$cookies', '$location', '$httpParamSerializerJQLike',
+	function($rootScope, $window, $http, Flash, User, $cookies, $location, $httpParamSerializerJQLike) {
+		var dataFactory = {}, timeOut;
 
 		// Handle signed in user
         dataFactory.handleSignIn = function(token, user) {
@@ -47,13 +47,9 @@ services.factory('AuthManager', ['$rootScope', '$http', 'User', '$window', '$coo
 				User.restore($httpParamSerializerJQLike({token: token}),
 					function(response) {
 						$this.handleSignIn(response.token, response.user);
-						$location.path("/");
 					}, function(response) {
-		            	var data = response.data;
-		            	if (data.error !== undefined && Array.isArray(data.error)) {
-		                	for (var msg in data.error) {
-		                    	console.log(data.error[msg]);
-		                	}
+		            	if (response.data.error !== undefined) {
+							Flash.add('error', response.data.error);
 		            	}
 		            }
 				);
@@ -86,8 +82,15 @@ services.factory('Flash', ['$rootScope', '$timeout',
 
         // Create flash message
         dataFactory.add = function(type, text) {
-            var $this = this;
-            $rootScope.flash.messages.push({type: type, text: text});
+            if (Array.isArray(text)) {
+                for (var msg in text) {
+					$rootScope.flash.messages.push({type: type, text: text[msg]});
+                }
+            } else {
+				$rootScope.flash.messages.push({type: type, text: text});
+            }
+
+			var $this = this;
 			$timeout.cancel(timeOut);
             $timeout(function() {
                 $rootScope.hasMsg = true;
