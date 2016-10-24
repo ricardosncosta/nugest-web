@@ -75,6 +75,24 @@ services.factory('AuthManager', ['$rootScope', '$window', '$http', 'Flash', 'Use
     }
 ]);
 
+services.factory('AuthInterceptor', ['$q', 'Flash', '$location',
+	function($q, Flash, $location) {
+	    var service = this;
+	    service.responseError = function(response) {
+	        if (response.status == 401 && response.data.indexOf('Unauthorized') > -1) {
+				// Save current url and redirect to signin page
+				sessionStorage.nextUrl = $location.url();
+				Flash.add('warning', 'Session expired. Please signin to continue.');
+	            $location.path('/signin');
+	        }
+
+	        return $q.reject(response);
+	    };
+
+		return service;
+	}
+])
+
 // Flash messages
 services.factory('Flash', ['$rootScope', '$timeout',
     function($rootScope, $timeout) {

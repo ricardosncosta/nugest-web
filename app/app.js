@@ -25,6 +25,9 @@ app.config(['$httpProvider', function($httpProvider) {
     // Enable cross origin requests
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+    // Add http interceptor
+    $httpProvider.interceptors.push('AuthInterceptor');
 }]);
 
 // Routing
