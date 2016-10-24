@@ -1,7 +1,7 @@
 logs/*
 !.gitkeep
 node_modules/
-app/js/bower/
+app/bower/
 tmp
 .DS_Store
 .idea
