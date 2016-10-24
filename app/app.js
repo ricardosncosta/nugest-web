@@ -5,6 +5,7 @@ var app = angular.module('nugestApp', [
     // Modules
     'ngRoute',
     'ngMessages',
+    'ngAnimate',
 
     // Controllers
     'authControllers',

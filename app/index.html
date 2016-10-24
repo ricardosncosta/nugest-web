@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="bower/html5-boilerplate/dist/css/main.css">
 	    <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
 	    <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap-theme.min.css">
+	    <link rel="stylesheet" href="bower/animate.css/animate.min.css">
 	    <link rel="stylesheet" href="css/default.css">
 
 	    <!-- Javascripts -->
@@ -66,9 +67,9 @@
         	</nav>
 
         	<!-- Flash Messages -->
-    		<div class="container ng-hide" ng-show="flash.messages.length" id="flash-messages">
-    			<ul ng-repeat="message in flash.messages">
-    			    <li class="animate-repeat alert alert-{{ message.type }} alert-dismissible">
+    		<div class="container flash" id="flash-messages">
+    			<ul ng-show="flash.messages.length" ng-repeat="message in flash.messages">
+    			    <li class="alert alert-{{ message.type }} alert-dismissible">
                         {{ message.text }}
     					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     				</li>

@@ -6,10 +6,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "jquery": "~2.1.x",
+
     "html5-boilerplate": "~5.2.0",
     "bootstrap": "3.3.x",
-
-    "jquery": "~2.1.x",
+    "animate.css": "3.5.x",
 
     "angular": "1.4.x",
     "angular-messages": "1.4.x",
