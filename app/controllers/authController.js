@@ -19,9 +19,14 @@ authControllers.controller('AuthCtrl', [
                     // Signin user
                     AuthManager.handleSignIn(response.token, response.user, $scope.user.remember);
 
-                    // Redirect
+                    // Flash message and Redirect
                     Flash.add('success', 'You are now logged in!');
-                    $location.path("/");
+                    if (sessionStorage.nextUrl !== undefined) {
+                        $location.path(sessionStorage.nextUrl);
+                        sessionStorage.nextUrl = null;
+                    } else {
+                        $location.path("/");
+                    }
                 }
             }, function(response) {
                 if (response.data.error !== undefined) {

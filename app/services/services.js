@@ -23,8 +23,8 @@ services.factory('Dish', ['$resource', '$rootScope',
 ]);
 
 // Auth manager
-services.factory('AuthManager', ['$rootScope', '$window', '$http', 'Flash', 'User', '$cookies', '$location', '$httpParamSerializerJQLike',
-	function($rootScope, $window, $http, Flash, User, $cookies, $location, $httpParamSerializerJQLike) {
+services.factory('AuthManager', ['$rootScope', '$http', 'User', '$cookies', '$location', 'Flash', '$window', '$httpParamSerializerJQLike',
+	function($rootScope, $http, User, $cookies, $location, Flash, $window, $httpParamSerializerJQLike) {
 		var dataFactory = {}, timeOut;
 
 		// Handle signed in user
@@ -37,17 +37,16 @@ services.factory('AuthManager', ['$rootScope', '$window', '$http', 'Flash', 'Use
 			var deToken = this.decode64base(token, 1);
 			var expiryDate = new Date(deToken.exp * 1000);
 			$cookies.putObject('access_token', token, {expires: expiryDate});
+
+
         };
 
 		// Handle signed out user
         dataFactory.handleSignOut = function() {
-			// Unset user, Authorization header and cookie
+			// Unset user, Authorization header and access cookie
             $rootScope.user = null;
 			delete $http.defaults.headers.common.Authorization;
 			$cookies.remove('access_token');
-
-			// Redirect user back to landing page
-			$location.path("/");
         };
 
 		dataFactory.checkAuthentication = function() {
@@ -85,11 +84,16 @@ services.factory('AuthManager', ['$rootScope', '$window', '$http', 'Flash', 'Use
     }
 ]);
 
-services.factory('AuthInterceptor', ['$q', 'Flash', '$location',
-	function($q, Flash, $location) {
+
+// Http Interceptor
+services.factory('AuthInterceptor', ['$q', 'Flash', '$location', '$injector',
+	function($q, Flash, $location, $injector) {
 	    var service = this;
 	    service.responseError = function(response) {
 	        if (response.status == 401 && response.data.indexOf('Unauthorized') > -1) {
+				var auth = $injector.get('AuthManager');
+				auth.handleSignOut();
+
 				// Save current url and redirect to signin page
 				sessionStorage.nextUrl = $location.url();
 				Flash.add('warning', 'Session expired. Please signin to continue.');
