@@ -40,7 +40,7 @@
 
 <ul class="dish-list item-list list-group col-sm-offset-4 col-sm-4">
     <li class="list-group-item" ng-repeat="dish in dishes | filter:query">
-        {{ dish.name }} ({{ dish.calories }} kcal)
+        {{ dish.name }} <span ng-if="dish.calories > 0">({{ dish.calories }} kcal)</span>
         <button ng-click="removeDish($index)" type="button" class="close glyphicon glyphicon-trash" aria-label="Close" aria-hidden="true"></button>
         <button ng-click="setUpdateMode(true, $index)" type="button" class="close glyphicon glyphicon-pencil" aria-label="Close" aria-hidden="true"></button>
     </li>
