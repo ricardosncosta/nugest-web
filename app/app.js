@@ -18,16 +18,19 @@ var app = angular.module('nugestApp', [
 
 // Configuration
 app.config(['$httpProvider', function($httpProvider) {
-    // Set x-www-form-urlencoded as default content type for POST requests
+    // Set x-www-form-urlencoded as default content type for POST/PUT requests
     $httpProvider.defaults.headers.post = {
         'Content-Type': 'application/x-www-form-urlencoded'
     };
 
+    $httpProvider.defaults.headers.put = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    };
+
     // Enable cross origin requests
-    $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-    // Add http interceptor
+    // HTTP interceptor
     $httpProvider.interceptors.push('AuthInterceptor');
 }]);
 
