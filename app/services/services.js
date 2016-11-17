@@ -110,7 +110,7 @@ services.factory('AuthInterceptor', ['$q', 'Flash', '$location', '$injector',
 // Flash messages
 services.factory('Flash', ['$rootScope', '$timeout',
     function($rootScope, $timeout) {
-        var dataFactory = {}, timeOut;
+        var dataFactory = {}, timeOut = [];
 
         // Create flash message
         dataFactory.add = function(type, text) {
@@ -122,28 +122,12 @@ services.factory('Flash', ['$rootScope', '$timeout',
 				$rootScope.flash.messages.push({type: type, text: text});
             }
 
-			var $this = this;
-			$timeout.cancel(timeOut);
-            $timeout(function() {
-                $rootScope.hasMsg = true;
-            }, 100);
-            timeOut = $timeout(function() {
-                $this.clear();
-            }, $rootScope.flash.timeout);
+            timeOut.push($timeout(
+				function() { $rootScope.flash.messages.shift(); },
+				$rootScope.flash.timeout)
+			);
         };
 
-        // Cancel flashmessage timeout function
-        dataFactory.pause = function() {
-            $timeout.cancel(timeOut);
-        };
-
-        // Clear flash messages
-        dataFactory.clear = function() {
-            $timeout.cancel(timeOut);
-            $timeout(function() {
-                $rootScope.flash.messages = [];
-            });
-        };
         return dataFactory;
     }
 ]);
