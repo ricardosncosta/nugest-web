@@ -12,6 +12,16 @@ services.factory('User', ['$resource',
 	}
 ]);
 
+// Dish
+services.factory('Dish', ['$resource', '$rootScope',
+	function($resource, $rootScope) {
+		return $resource(baseUrl+'/users/:username/dishes/:id',
+							{ username: $rootScope.user.username, id: "@id" },
+							{ update: { method: 'PUT' } }
+						);
+	}
+]);
+
 // Auth manager
 services.factory('AuthManager', ['$rootScope', '$window', '$http', 'Flash', 'User', '$cookies', '$location', '$httpParamSerializerJQLike',
 	function($rootScope, $window, $http, Flash, User, $cookies, $location, $httpParamSerializerJQLike) {

@@ -10,6 +10,7 @@ var app = angular.module('nugestApp', [
     // Controllers
     'authControllers',
     'userControllers',
+    'dishControllers',
 
     // Services
     'services',
@@ -44,6 +45,10 @@ app.config(['$routeProvider',
         when('/signup', {
             templateUrl: 'views/user/signup.html',
             controller: 'UserCtrl'
+        }).
+        when('/dishes', {
+            templateUrl: 'views/dishes.html',
+            controller: 'DishCtrl'
         }).
         otherwise({
             redirectTo: '/',
