@@ -31,7 +31,7 @@ app.config(['$httpProvider', function($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
     // HTTP interceptor
-    $httpProvider.interceptors.push('AuthInterceptor');
+    $httpProvider.interceptors.push('authInterceptor');
 }]);
 
 // Routing
@@ -43,15 +43,15 @@ app.config(['$routeProvider',
         }).
         when('/signin', {
             templateUrl: 'views/auth/signin.html',
-            controller: 'AuthCtrl'
+            controller: 'authCtrl'
         }).
         when('/signup', {
             templateUrl: 'views/user/signup.html',
-            controller: 'UserCtrl'
+            controller: 'userCtrl'
         }).
         when('/dishes', {
             templateUrl: 'views/dishes.html',
-            controller: 'DishCtrl'
+            controller: 'dishCtrl'
         }).
         otherwise({
             redirectTo: '/',
@@ -59,7 +59,7 @@ app.config(['$routeProvider',
     }
 ]);
 
-app.run(function($rootScope, AuthManager, Flash, $location) {
+app.run(function($rootScope, authManager, flash, $location) {
     // Set defaults
     $rootScope.curYear = new Date().getFullYear();
     $rootScope.flash = {
@@ -68,10 +68,10 @@ app.run(function($rootScope, AuthManager, Flash, $location) {
     };
 
     // Recover user session
-    AuthManager.checkAuthentication();
+    authManager.checkAuthentication();
     $rootScope.signOut = function() {
-        AuthManager.handleSignOut();
-        Flash.add('success', 'You have signed out.');
+        authManager.handleSignOut();
+        flash.add('success', 'You have signed out.');
         $location.path("/");
     };
 

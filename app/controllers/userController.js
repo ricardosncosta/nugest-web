@@ -2,9 +2,9 @@
 
 // User controller
 var userControllers = angular.module('userControllers', []);
-userControllers.controller('UserCtrl', [
-    '$scope', 'User', '$httpParamSerializerJQLike', '$location', 'Flash',
-    function($scope, User, $httpParamSerializerJQLike, $location, Flash) {
+userControllers.controller('userCtrl', [
+    '$scope', 'user', '$httpParamSerializerJQLike', '$location', 'flash',
+    function($scope, user, $httpParamSerializerJQLike, $location, flash) {
         // TO REMOVE: Sample data
         $scope.user = {
             first_name: 'Test',
@@ -16,18 +16,18 @@ userControllers.controller('UserCtrl', [
         };
 
         $scope.signUp = function() {
-            User.save($httpParamSerializerJQLike($scope.user),
+            user.save($httpParamSerializerJQLike($scope.user),
                 function(response) {
-                    Flash.add('success', 'User created successfully. Please check your email.');
+                    flash.add('success', 'User created successfully. Please check your email.');
                 }, function(response) {
                     response = response.data;
                     if (response.error !== undefined) {
                         if (Array.isArray(response.error)) {
                             for (var msg in response.error) {
-                                Flash.add('danger', response.error[msg]);
+                                flash.add('danger', response.error[msg]);
                             }
                         } else {
-                            Flash.add('danger', response.error);
+                            flash.add('danger', response.error);
                         }
                     }
                 }

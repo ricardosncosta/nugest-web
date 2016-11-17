@@ -3,7 +3,7 @@ var services = angular.module('services', ['ngResource']);
 var baseUrl = 'http://0.0.0.0:8000/api/0.1';
 
 // Users
-services.factory('User', ['$resource',
+services.factory('user', ['$resource',
 	function($resource) {
 		return $resource(baseUrl+'/users/', {}, {
 			signIn: { method:'POST', url: baseUrl+'/auth/signin' },
@@ -13,7 +13,7 @@ services.factory('User', ['$resource',
 ]);
 
 // Dish
-services.factory('Dish', ['$resource', '$rootScope',
+services.factory('dish', ['$resource', '$rootScope',
 	function($resource, $rootScope) {
 		return $resource(baseUrl+'/users/:username/dishes/:id',
 							{ username: $rootScope.user.username, id: "@id" },
@@ -23,8 +23,8 @@ services.factory('Dish', ['$resource', '$rootScope',
 ]);
 
 // Auth manager
-services.factory('AuthManager', ['$rootScope', '$http', 'User', '$cookies', '$location', 'Flash', '$window', '$httpParamSerializerJQLike',
-	function($rootScope, $http, User, $cookies, $location, Flash, $window, $httpParamSerializerJQLike) {
+services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', '$location', 'flash', '$window', '$httpParamSerializerJQLike',
+	function($rootScope, $http, user, $cookies, $location, flash, $window, $httpParamSerializerJQLike) {
 		var dataFactory = {}, timeOut;
 
 		// Handle signed in user
@@ -53,12 +53,12 @@ services.factory('AuthManager', ['$rootScope', '$http', 'User', '$cookies', '$lo
 			var $this = this;
 			var token = $cookies.getObject('access_token');
 			if (token !== undefined) {
-				User.restore($httpParamSerializerJQLike({token: token}),
+				user.restore($httpParamSerializerJQLike({token: token}),
 					function(response) {
 						$this.handleSignIn(response.token, response.user);
 					}, function(response) {
 		            	if (response.data.error !== undefined) {
-							Flash.add('error', response.data.error);
+							flash.add('error', response.data.error);
 		            	}
 		            }
 				);
@@ -86,17 +86,17 @@ services.factory('AuthManager', ['$rootScope', '$http', 'User', '$cookies', '$lo
 
 
 // Http Interceptor
-services.factory('AuthInterceptor', ['$q', 'Flash', '$location', '$injector',
-	function($q, Flash, $location, $injector) {
+services.factory('authInterceptor', ['$q', 'flash', '$location', '$injector',
+	function($q, flash, $location, $injector) {
 	    var service = this;
 	    service.responseError = function(response) {
 	        if (response.status == 401 && response.data.indexOf('Unauthorized') > -1) {
-				var auth = $injector.get('AuthManager');
+				var auth = $injector.get('authManager');
 				auth.handleSignOut();
 
 				// Save current url and redirect to signin page
 				sessionStorage.nextUrl = $location.url();
-				Flash.add('warning', 'Session expired. Please signin to continue.');
+				flash.add('warning', 'Session expired. Please signin to continue.');
 	            $location.path('/signin');
 	        }
 
@@ -105,10 +105,10 @@ services.factory('AuthInterceptor', ['$q', 'Flash', '$location', '$injector',
 
 		return service;
 	}
-])
+]);
 
 // Flash messages
-services.factory('Flash', ['$rootScope', '$timeout',
+services.factory('flash', ['$rootScope', '$timeout',
     function($rootScope, $timeout) {
         var dataFactory = {}, timeOut = [];
 

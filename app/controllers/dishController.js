@@ -2,9 +2,9 @@
 
 // User controller
 var dishControllers = angular.module('dishControllers', []);
-dishControllers.controller('DishCtrl',
-    ['$scope', 'Dish', '$httpParamSerializerJQLike', 'Flash',
-    function($scope, Dish, $httpParamSerializerJQLike, Flash) {
+dishControllers.controller('dishCtrl',
+    ['$scope', 'dish', '$httpParamSerializerJQLike', 'flash',
+    function($scope, Dish, $httpParamSerializerJQLike, flash) {
         $scope.updateMode = false;
 
         // Get all dishes
@@ -14,7 +14,7 @@ dishControllers.controller('DishCtrl',
             }, function(response) {
                 response = response.data;
                 if (response.error !== undefined) {
-                    Flash.add('danger', response.error);
+                    flash.add('danger', response.error);
                 }
             }
         );
@@ -25,10 +25,10 @@ dishControllers.controller('DishCtrl',
                 function(response) {
                     $scope.dish = {};
                     $scope.dishes.unshift(response);
-                    Flash.add('success', 'Dish created.');
+                    flash.add('success', 'Dish created.');
                 }, function(response) {
                     if (response.data.error !== undefined) {
-                        Flash.add('danger', response.data.error);
+                        flash.add('danger', response.data.error);
                     }
                 }
             );
@@ -50,10 +50,10 @@ dishControllers.controller('DishCtrl',
             Dish.update({ id: $scope.dish.id }, $httpParamSerializerJQLike($scope.dish),
                 function(response) {
                     $scope.setUpdateMode(false);
-                    Flash.add('success', 'Dish updated.');
+                    flash.add('success', 'Dish updated.');
                 }, function(response) {
                     if (response.data.error !== undefined) {
-                        Flash.add('danger', response.data.error);
+                        flash.add('danger', response.data.error);
                     }
                 }
             );
@@ -65,10 +65,10 @@ dishControllers.controller('DishCtrl',
                 Dish.remove({ id: $scope.dishes[index].id },
                     function(response) {
                         $scope.dishes.splice($scope.dishes.indexOf($scope.dishes[index]), 1);
-                        Flash.add('success', 'Dish removed.');
+                        flash.add('success', 'Dish removed.');
                     }, function(response) {
                         if (response.data.error !== undefined) {
-                            Flash.add('danger', response.data.error);
+                            flash.add('danger', response.data.error);
                         }
                     }
                 );
