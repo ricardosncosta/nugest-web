@@ -1,25 +1,38 @@
+/* Fix for Bootstrap's fixed bottom navbar */
+html, body { margin-top: 25px; }
+
+/* General definitions */
 ul, ol {
 	padding: 0px;
 	margin: 15px;
 }
 
+/* Header */
+#header { }
+#flash-messages { }
+
+/* Content */
+#content { }
+
+/* Footer */
+#footer { margin-top: 50px; }
+
 /* Flash and error messages */
-#flash-messages ul, #error-messages ul { padding: 0; margin: 0; }
-#flash-messages li, #error-messages li { list-style: none; padding: 5px; }
+#flash-messages ul, #error-messages ul { padding: 15px 0; margin: 0; }
+#flash-messages li, #error-messages li {
+	list-style: none;
+	padding: 5px;
+	margin: 10px;
+}
 #error-messages .alert {
 	padding: 5px;
 }
-
-/* Fix for Bootstrap's fixed bottom navbar */
-body { padding-bottom: 70px; }
 
 form .ng-messages { color: red; }
 form .ng-dirty.ng-invalid { border-color: red; }
 form .ng-dirty.ng-valid { border-color: green; }
 
-ul.dish-list li.list-group-item {
-	margin-bottom: 10px;
-}
+ul.dish-list li.list-group-item { margin-bottom: 5px; }
 
 /* Animations - Flash messages */
 .flash .ng-enter {
