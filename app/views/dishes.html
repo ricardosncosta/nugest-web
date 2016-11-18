@@ -44,4 +44,5 @@
         <button ng-click="removeDish($index)" type="button" class="close glyphicon glyphicon-trash" aria-label="Close" aria-hidden="true"></button>
         <button ng-click="setUpdateMode(true, $index)" type="button" class="close glyphicon glyphicon-pencil" aria-label="Close" aria-hidden="true"></button>
     </li>
+    <li class="list-group-item" ng-hide="dishes.length">No dishes found.</li>
 </ul>
