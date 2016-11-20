@@ -23,33 +23,37 @@ services.factory('dish', ['$resource', '$rootScope',
 ]);
 
 // Auth manager
-services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', '$location', 'flash', '$window', '$httpParamSerializerJQLike',
-	function($rootScope, $http, user, $cookies, $location, flash, $window, $httpParamSerializerJQLike) {
-		var dataFactory = {}, timeOut;
+services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'flash', '$window', '$httpParamSerializerJQLike',
+	function($rootScope, $http, user, $cookies, flash, $window, $httpParamSerializerJQLike) {
+		var $this = this, timeOut;
 
 		// Handle signed in user
-        dataFactory.handleSignIn = function(token, user) {
-			// Sets User and Token Authorization header
+        $this.handleSignIn = function(token, user) {
+			// Set User and Token Authorization header
 			$rootScope.user = user;
 			$http.defaults.headers.common.Authorization = 'Bearer ' + token;
 
-			// Sets Token as Cookie
+			// Set Token as Cookie
 			var deToken = this.decode64base(token, 1);
 			var expiryDate = new Date(deToken.exp * 1000);
 			$cookies.putObject('access_token', token, {expires: expiryDate});
 
-
+			// Flash message
+            flash.add('success', 'You are now signed in!');
         };
 
 		// Handle signed out user
-        dataFactory.handleSignOut = function() {
+        $this.handleSignOut = function() {
 			// Unset user, Authorization header and access cookie
             $rootScope.user = null;
 			delete $http.defaults.headers.common.Authorization;
 			$cookies.remove('access_token');
+
+			// Flash message
+        	flash.add('success', 'You have signed out.');
         };
 
-		dataFactory.checkAuthentication = function() {
+		$this.checkAuthentication = function() {
 			var $this = this;
 			var token = $cookies.getObject('access_token');
 			if (token !== undefined) {
@@ -65,7 +69,7 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', '$lo
 			}
 		};
 
-		dataFactory.decode64base = function(token, dataIndex) {
+		$this.decode64base = function(token, dataIndex) {
 			var strObj = '';
 			if (dataIndex === undefined) {
 				var splitToken = token.split('.');
@@ -80,7 +84,7 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', '$lo
 			return JSON.parse($window.atob(strObj));
 		};
 
-        return dataFactory;
+        return $this;
     }
 ]);
 
@@ -88,8 +92,8 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', '$lo
 // Http Interceptor
 services.factory('authInterceptor', ['$q', 'flash', '$location', '$injector',
 	function($q, flash, $location, $injector) {
-	    var service = this;
-	    service.responseError = function(response) {
+	    var $this = this;
+	    $this.responseError = function(response) {
 	        if (response.status == 401 && response.data.indexOf('Unauthorized') > -1) {
 				var auth = $injector.get('authManager');
 				auth.handleSignOut();
@@ -103,17 +107,17 @@ services.factory('authInterceptor', ['$q', 'flash', '$location', '$injector',
 	        return $q.reject(response);
 	    };
 
-		return service;
+		return $this;
 	}
 ]);
 
 // Flash messages
 services.factory('flash', ['$rootScope', '$timeout',
     function($rootScope, $timeout) {
-        var dataFactory = {}, timeOut = [];
+        var $this = {}, timeOut = [];
 
         // Create flash message
-        dataFactory.add = function(type, text) {
+        $this.add = function(type, text) {
             if (Array.isArray(text)) {
                 for (var msg in text) {
 					$rootScope.flash.messages.push({type: type, text: text[msg]});
@@ -128,6 +132,6 @@ services.factory('flash', ['$rootScope', '$timeout',
 			);
         };
 
-        return dataFactory;
+        return $this;
     }
 ]);

@@ -19,8 +19,7 @@ authControllers.controller('authCtrl', [
                     // Signin user
                     authManager.handleSignIn(response.token, response.user, $scope.user.remember);
 
-                    // Flash message and Redirect
-                    flash.add('success', 'You are now logged in!');
+                    // Redirect
                     if (sessionStorage.nextUrl !== undefined) {
                         $location.path(sessionStorage.nextUrl);
                         sessionStorage.nextUrl = null;
