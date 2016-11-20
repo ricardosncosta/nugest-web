@@ -34,11 +34,5 @@ authControllers.controller('authCtrl', [
                 }
             });
         };
-
-        $scope.signOut = function() {
-            authManager.handleSignOut();
-            flash.add('success', 'You have signed out.');
-            $location.path("/");
-        };
     }
 ]);
