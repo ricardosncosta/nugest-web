@@ -72,6 +72,9 @@ app.run(function($rootScope, authManager, flash, $location) {
     $rootScope.signOut = function() {
         authManager.handleSignOut();
         $location.path("/");
+
+		// Flash message
+    	flash.add('success', 'You have signed out.');
     };
 
     // Set route

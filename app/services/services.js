@@ -37,9 +37,6 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
 			var deToken = this.decode64base(token, 1);
 			var expiryDate = new Date(deToken.exp * 1000);
 			$cookies.putObject('access_token', token, {expires: expiryDate});
-
-			// Flash message
-            flash.add('success', 'You are now signed in!');
         };
 
 		// Handle signed out user
@@ -48,9 +45,6 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
 			delete $rootScope.user;
 			delete $http.defaults.headers.common.Authorization;
 			$cookies.remove('access_token');
-
-			// Flash message
-        	flash.add('success', 'You have signed out.');
         };
 
 		$this.checkAuthentication = function() {

@@ -26,6 +26,9 @@ authControllers.controller('authCtrl', [
                     } else {
                         $location.path("/");
                     }
+
+        			// Flash message
+                    flash.add('success', 'You are now signed in!');
                 }
             }, function(response) {
                 if (response.data.error !== undefined) {
