@@ -48,7 +48,6 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
         };
 
 		$this.checkAuthentication = function() {
-			var $this = this;
 			var token = $cookies.getObject('access_token');
 			if (token !== undefined) {
 				user.restore($httpParamSerializerJQLike({token: token}),
