@@ -47,9 +47,10 @@
         						</div>
         						<button type="submit" class="btn btn-default glyphicon glyphicon-search"></button>
         					</form>
-    	    		        <li><a href="#dishes" role="button" aria-haspopup="true" aria-expanded="false">Dishes&nbsp;<span class="glyphicon glyphicon-cutlery"></span></a></li>
-                            <li class="dropdown"><a href="#menus" role="button" aria-haspopup="true" aria-expanded="false">Menus&nbsp;<span class="glyphicon glyphicon-cutlery"></span></a></li>
-    	    		        <li class="dropdown" ng-show="user.id !== undefined">
+    	    		        <li><a href="#home" role="button" aria-haspopup="true" aria-expanded="false">Home&nbsp;<span class="glyphicon glyphicon-home"></span></a></li>
+    	    		        <li ng-show="user.id"><a href="#dishes" role="button" aria-haspopup="true" aria-expanded="false">Dishes&nbsp;<span class="glyphicon glyphicon-cutlery"></span></a></li>
+                            <li ng-show="user.id" class="dropdown"><a href="#menus" role="button" aria-haspopup="true" aria-expanded="false">Menus&nbsp;<span class="glyphicon glyphicon-cutlery"></span></a></li>
+    	    		        <li class="dropdown" ng-show="user.id">
     	    		        	<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.email }}&nbsp;<span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
     	    		        	<ul class="dropdown-menu">
     	    		            	<li><a href="/user/update">Update account</a></li>
@@ -59,8 +60,8 @@
     	    		            	<li><a href="#" ng-click="signOut()">Signout</a></li>
     	    		        	</ul>
     	    		        </li>
-    	    				<li ng-show="user.id === undefined"><a href="#signup">Signup</a></li>
-    			        	<li ng-show="user.id === undefined"><a href="#signin">Signin</a></li>
+    	    				<li ng-hide="user.id"><a href="#signup">Signup</a></li>
+    			        	<li ng-hide="user.id"><a href="#signin">Signin</a></li>
         			    </ul>
         		    </div><!-- /.navbar-collapse -->
         		</div><!-- /.container -->

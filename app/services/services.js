@@ -44,8 +44,8 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
 
 		// Handle signed out user
         $this.handleSignOut = function() {
-			// Unset user, Authorization header and access cookie
-            $rootScope.user = null;
+			// Delete user, Authorization header and access cookie
+			delete $rootScope.user;
 			delete $http.defaults.headers.common.Authorization;
 			$cookies.remove('access_token');
 
