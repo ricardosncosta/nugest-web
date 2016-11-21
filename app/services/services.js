@@ -34,7 +34,7 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
 			$http.defaults.headers.common.Authorization = 'Bearer ' + token;
 
 			// Set Token as Cookie
-			var deToken = this.decode64base(token, 1);
+			var deToken = $this.decode64base(token, 1);
 			var expiryDate = new Date(deToken.exp * 1000);
 			$cookies.putObject('access_token', token, {expires: expiryDate});
         };
