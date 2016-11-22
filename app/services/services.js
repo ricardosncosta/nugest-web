@@ -37,6 +37,9 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
 			var deToken = $this.decode64base(token, 1);
 			var expiryDate = new Date(deToken.exp * 1000);
 			$cookies.putObject('access_token', token, {expires: expiryDate});
+
+			// Close modal dialog
+			$('#modalSignIn').modal('hide');
         };
 
 		// Handle signed out user
@@ -81,20 +84,24 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
     }
 ]);
 
-
 // Http Interceptor
-services.factory('authInterceptor', ['$q', 'flash', '$location', '$injector',
-	function($q, flash, $location, $injector) {
+services.factory('authInterceptor', ['$q', 'flash', '$location', '$timeout', '$injector',
+	function($q, flash, $location, $timeout, $injector) {
 	    var $this = this;
 	    $this.responseError = function(response) {
 	        if (response.status == 401 && response.data.indexOf('Unauthorized') > -1) {
+				// Save current url and redirect to signin page
+				sessionStorage.lastUrl = $location.url();
+
 				var auth = $injector.get('authManager');
 				auth.handleSignOut();
 
-				// Save current url and redirect to signin page
-				sessionStorage.nextUrl = $location.url();
-				flash.add('warning', 'Session expired. Please signin to continue.');
-	            $location.path('/signin');
+				// Set message on authCtrl scope
+				var authScope = angular.element("#modalSignIn").scope();
+				authScope.addMessage('warning', 'Session expired. Please signin to continue.');
+
+				// Show modal dialog
+				$('#modalSignIn').modal('show');
 	        }
 
 	        return $q.reject(response);

@@ -57,11 +57,11 @@
     	    		            	<li><a href="/user/update/email">Update email</a></li>
     	    		            	<li><a href="/user/update/password">Update password</a></li>
     	    		            	<li role="separator" class="divider"></li>
-    	    		            	<li><a href="#" ng-click="signOut()">Signout</a></li>
+    	    		            	<li><a href="#" ng-controller="authCtrl" ng-click="signOut()">Signout</a></li>
     	    		        	</ul>
     	    		        </li>
     	    				<li ng-hide="user.id"><a href="#signup">Signup</a></li>
-    			        	<li ng-hide="user.id"><a href="#signin">Signin</a></li>
+    			        	<li ng-hide="user.id"><a href="" data-toggle="modal" data-target="#modalSignIn" data-keyboard="true">Signin</a></li>
         			    </ul>
         		    </div><!-- /.navbar-collapse -->
         		</div><!-- /.container -->
@@ -106,6 +106,85 @@
         <script src="controllers/authController.js"></script>
         <script src="controllers/userController.js"></script>
         <script src="controllers/dishController.js"></script>
+
+        <!-- Modals -->
+        <div id="modalSignIn" ng-controller="authCtrl" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Sign In</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<!-- Flash Messages -->
+                		<div class="container-fluid flash animate" id="flash-messages">
+                			<ul>
+                			    <li class="alert alert-{{ message.type }} alert-dismissible" ng-repeat="message in messages">
+                                    {{ message.text }}
+                					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                				</li>
+                			</ul>
+                		</div><!-- #flashMessages -->
+
+                        <form class="form-horizontal" name="signin">
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="email" class="col-sm-offset-2 col-sm-3 control-label">Email</label>
+                                <div class="col-sm-4">
+                                    <input type="email"
+                                           name="email"
+                                           id="email"
+                                           placeholder="Email"
+                                           ng-model="user.email"
+                                           class="form-control"
+                                           value=""
+                                           required>
+                                    <p></p>
+                                    <div class="ng-messages" ng-if='signin.email.$dirty' ng-messages="signin.email.$error" role="alert">
+                                        <div ng-messages-include="ng-messages"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label for="password" class="col-sm-offset-2 col-sm-3 control-label">Password</label>
+                                <div class="col-sm-4">
+                                    <input type="password"
+                                           name="password"
+                                           id="password"
+                                           placeholder="Password"
+                                           ng-model="user.password"
+                                           class="form-control"
+                                           value=""
+                                           required>
+                                    <p></p>
+                                    <div class="ng-messages" ng-if='signin.password.$dirty' ng-messages="signin.password.$error" role="alert">
+                                        <div ng-messages-include="ng-messages"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Remember Me -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-5 col-sm-3">
+                                    <div class="checkbox">
+                                        <label for="remember">
+                                            <input type="checkbox" name="remember" id="remember" ng-model="user.remember"> Remember Me
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="closeSignIn()" data-dismiss="modal">Not now</button>
+                        <button type="button" class="btn btn-primary" ng-click="signIn()">Sign In</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
         <!-- ngMessages -->
         <script type="text/ng-template" id="ng-messages">

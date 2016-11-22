@@ -41,10 +41,6 @@ app.config(['$routeProvider',
         when('/', {
             templateUrl: 'views/home.html',
         }).
-        when('/signin', {
-            templateUrl: 'views/auth/signin.html',
-            controller: 'authCtrl'
-        }).
         when('/signup', {
             templateUrl: 'views/user/signup.html',
             controller: 'userCtrl'
@@ -69,13 +65,6 @@ app.run(function($rootScope, authManager, flash, $location) {
 
     // Recover user session
     authManager.checkAuthentication();
-    $rootScope.signOut = function() {
-        authManager.handleSignOut();
-        $location.path("/");
-
-		// Flash message
-    	flash.add('success', 'You have signed out.');
-    };
 
     // Set route
     $rootScope.$on("$routeChangeStart", function(event, next, current) {
