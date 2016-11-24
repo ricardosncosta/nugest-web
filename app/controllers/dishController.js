@@ -71,6 +71,7 @@ dishControllers.controller('dishCtrl',
             if (index !== undefined) {
                 $scope.dish = $scope.dishes[index];
                 $scope.updateMode = true;
+                $('html, body').animate({ scrollTop: 0 }, 500);
             } else {
                 $scope.dish = {};
                 $scope.updateMode = false;
