@@ -7,6 +7,7 @@ dishControllers.controller('dishCtrl',
     function($scope, Dish, $httpParamSerializerJQLike, flash) {
         $scope.updateMode = false;
 
+        // REST functions
         // Get all dishes
         Dish.query({},
 			function(response) {
@@ -20,7 +21,7 @@ dishControllers.controller('dishCtrl',
         );
 
         // Add dish
-        $scope.saveDish = function() {
+        $scope.create = function() {
             Dish.save($httpParamSerializerJQLike($scope.dish),
                 function(response) {
                     $scope.dish = {};
@@ -34,19 +35,8 @@ dishControllers.controller('dishCtrl',
             );
         };
 
-        // Set Update mode
-        $scope.setUpdateMode = function(status, index) {
-            if (status === true) {
-                $scope.dish = $scope.dishes[index];
-                $scope.updateMode = true;
-            } else {
-                $scope.dish = {};
-                $scope.updateMode = false;
-            }
-        };
-
         // Update dish
-        $scope.updateDish = function(index) {
+        $scope.update = function(index) {
             Dish.update({ id: $scope.dish.id }, $httpParamSerializerJQLike($scope.dish),
                 function(response) {
                     $scope.setUpdateMode(false);
@@ -60,7 +50,7 @@ dishControllers.controller('dishCtrl',
         };
 
         // Remove dish
-        $scope.removeDish = function(index) {
+        $scope.destroy = function(index) {
             if (confirm('Remove "' +$scope.dishes[index].name+ '"?')) {
                 Dish.remove({ id: $scope.dishes[index].id },
                     function(response) {
@@ -75,5 +65,16 @@ dishControllers.controller('dishCtrl',
             }
         };
 
+        // HELPER FUNCTIONS
+        // Set Update mode
+        $scope.setUpdateMode = function(index) {
+            if (index !== undefined) {
+                $scope.dish = $scope.dishes[index];
+                $scope.updateMode = true;
+            } else {
+                $scope.dish = {};
+                $scope.updateMode = false;
+            }
+        };
     }
 ]);

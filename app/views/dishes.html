@@ -29,11 +29,11 @@
     <div class="form-group">
         <div class="col-sm-offset-5 col-sm-3">
             <!-- Update mode: Off -->
-            <button type="submit" ng-show="updateMode === false" ng-click="saveDish()" class="btn btn-default">Add</button>
+            <button type="submit" ng-show="updateMode === false" ng-click="create()" class="btn btn-default">Add</button>
 
             <!-- Update mode: On -->
-            <button type="submit" ng-show="updateMode === true" ng-click="updateDish()" class="btn btn-default">Update</button>
-            <button type="submit" ng-show="updateMode === true" ng-click="setUpdateMode(false)" class="btn btn-default">Cancel</button>
+            <button type="submit" ng-show="updateMode === true" ng-click="update()" class="btn btn-default">Update</button>
+            <button type="submit" ng-show="updateMode === true" ng-click="setUpdateMode()" class="btn btn-default">Cancel</button>
         </div>
     </div>
 </form>
@@ -41,8 +41,8 @@
 <ul class="dish-list item-list list-group col-sm-offset-4 col-sm-4">
     <li class="list-group-item" ng-repeat="dish in dishes | filter:query">
         {{ dish.name }} <span ng-if="dish.calories > 0">({{ dish.calories }} kcal)</span>
-        <button ng-click="removeDish($index)" type="button" class="close glyphicon glyphicon-trash" aria-label="Close" aria-hidden="true"></button>
-        <button ng-click="setUpdateMode(true, $index)" type="button" class="close glyphicon glyphicon-pencil" aria-label="Close" aria-hidden="true"></button>
+        <button ng-click="destroy($index)" type="button" class="close glyphicon glyphicon-trash" aria-label="Close" aria-hidden="true"></button>
+        <button ng-click="setUpdateMode($index)" type="button" class="close glyphicon glyphicon-pencil" aria-label="Close" aria-hidden="true"></button>
     </li>
     <li class="list-group-item" ng-hide="dishes.length">No dishes found.</li>
 </ul>
