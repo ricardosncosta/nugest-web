@@ -64,7 +64,7 @@ app.run(function($rootScope, authManager, flash, $location) {
     };
 
     // Recover user session
-    authManager.checkAuthentication();
+    authManager.restoreSession();
 
     // Set route
     $rootScope.$on("$routeChangeStart", function(event, next, current) {

@@ -50,7 +50,7 @@ services.factory('authManager', ['$rootScope', '$http', 'user', '$cookies', 'fla
 			$cookies.remove('access_token');
         };
 
-		$this.checkAuthentication = function() {
+		$this.restoreSession = function() {
 			var token = $cookies.getObject('access_token');
 			if (token !== undefined) {
 				user.restore($httpParamSerializerJQLike({token: token}),
